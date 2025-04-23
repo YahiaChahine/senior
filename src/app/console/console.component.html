@@ -1,0 +1,59 @@
+<div class="min-h-screen bg-hacker-dark flex items-center justify-center p-4 font-mono text-hacker-green">
+    <div class="w-full max-w-4xl border-2 border-hacker-green shadow-retro">
+      <!-- Top Panel -->
+      <div class="bg-hacker-panel p-4 border-b border-hacker-green flex justify-between items-center">
+        <div class="text-lg">
+          {{ username }}:~$
+        </div>
+        <div class="flex items-center mr-4">
+          <span class="mr-2">STATUS:</span>
+          <span [class.text-hacker-green]="isRunning" 
+                [class.text-hacker-warning]="!isRunning"
+                class="font-bold">
+            {{ isRunning ? 'RUNNING' : 'STOPPED' }}
+          </span>
+        </div>
+        <div class="flex space-x-6">
+          <div class="flex items-center">
+            <span class="mr-2">PROC:</span>
+            <span class="font-bold">{{ runningProcesses }}</span>
+          </div>
+          <div class="flex items-center">
+            <span class="mr-2">THREATS:</span>
+            <span class="font-bold text-hacker-warning">{{ threatsDetected }}</span>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Main Terminal -->
+      <div class="bg-black p-4 h-96 overflow-y-auto flex flex-col">
+        <!-- Log Output -->
+        <div class="flex-grow font-mono text-sm">
+          <div *ngFor="let log of logs" 
+               [class.text-hacker-green]="log.type === 'normal'"
+               [class.text-hacker-warning]="log.type === 'warning'"
+               [class.text-red-500]="log.type === 'process' && isThreat(log.process)"
+               [class.text-green-400]="log.type === 'process' && !isThreat(log.process)"
+               class="mb-1">
+            > {{ log.message }}
+            <span *ngIf="log.type === 'process' && isThreat(log.process)" class="ml-2 text-xs bg-red-900/50 px-1">
+              [RANSOMWARE DETECTED]
+            </span>
+          </div>
+        </div>
+  
+        <!-- Control Button -->
+        <div class="mt-4 flex justify-center">
+          <button (click)="toggleSystem()" 
+                  class="border-2 border-hacker-green p-2 hover:bg-hacker-green hover:text-black transition-colors">
+            <svg *ngIf="!isRunning" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+            </svg>
+            <svg *ngIf="isRunning" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
