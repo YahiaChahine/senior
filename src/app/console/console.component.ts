@@ -26,7 +26,7 @@ interface Log {
   styleUrls: ['./console.component.scss']
 })
 export class ConsoleComponent implements OnInit, OnDestroy {
-  username = 'root@hacker';
+  username = '@Yahias';
   runningProcesses = 0;
   threatsDetected = 0;
   isRunning = false;
@@ -118,11 +118,14 @@ export class ConsoleComponent implements OnInit, OnDestroy {
     
     // Add new process logs
     processes.forEach(process => {
-      this.addLog(
-        `${process.pid} - ${process.name} - ${process.result === '1' ? 'THREAT' : 'safe'}`,
-        'process',
-        process
-      );
+      if(process.result === '1'){
+        this.addLog(
+          `${process.pid} - ${process.result === '1' ? 'THREAT' : 'safe'}`,
+          'process',
+          process
+        );
+      }
+      
     });
   }
 

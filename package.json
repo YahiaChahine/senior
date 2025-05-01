@@ -1,12 +1,24 @@
 {
   "name": "rds",
   "version": "0.0.0",
+  "main": "./main.js",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "electron-build": "ng build --base-href ./ && electron .",
+    "electron-dev": "ng serve & electron .",
+    "electron": "ng build --base-href ./ && electron .",
+    "electron:serve": "concurrently -k \"ng serve\" \"wait-on http://localhost:4200 && electron .\""
+  },
+  "build": {
+    "appId": "com.yourcompany.yourapp",
+    "files": [
+      "dist/**/*",
+      "electron/**/*"
+    ]
   },
   "private": true,
   "dependencies": {
@@ -30,6 +42,8 @@
     "@angular/compiler-cli": "^18.2.0",
     "@types/jasmine": "~5.1.0",
     "autoprefixer": "^10.4.21",
+    "concurrently": "^9.1.2",
+    "electron": "^35.2.0",
     "jasmine-core": "~5.2.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
@@ -38,6 +52,7 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "postcss": "^8.5.3",
     "tailwindcss": "^3.4.17",
-    "typescript": "~5.5.2"
+    "typescript": "~5.5.2",
+    "wait-on": "^8.0.3"
   }
 }
